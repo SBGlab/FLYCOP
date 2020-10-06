@@ -54,7 +54,9 @@ Move to the FLYCOP software directory:
 ```{sh eval=FALSE}
 cd FLYCOP
 ```
+##### Docker image
 
+The docker configuration can be found in https://hub.docker.com/r/beatrizgj/docker-flycop/tags
 
 #### (b) Your-self installation: basic pre-requisites
 
@@ -141,4 +143,6 @@ Several exploratory individual consortium simulations are recommended before run
 An individual configuration takes some minutes. However, a complete FLYCOP run usually take several hours, depending on several parameters. The main one is the number of different consortium configurations to evaluate, defined in 'consortiumPrefix_confFLYCOP_scenario_v\<Y>.txt'. For 500 configurations, FLYCOP usually takes around 10-12 hours in a 16GB RAM computer. Other parameters with less influence on runtime are the number of cycles over the consortium configuration is simulated (defined in ConsortiumPrefix_TemplateOptimizeConsortiumV\<A>/consortiumPrefix_layout_template.txt).
 
 ***
+
+
 
