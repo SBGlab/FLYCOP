@@ -1,0 +1,13 @@
+maxCycles = 240
+timeStep = 0.1
+spaceWidth = 0.05
+writeTotalBiomassLog = True
+TotalBiomassLogName = total_biomass_log_template.txt
+writeMediaLog = True
+MediaLogName = media_log_template.txt   
+writeFluxLog = True
+FluxLogName = flux_log_template.txt
+spaceWidth = 0.05	
+allowCellOverlap = True
+deathRate = 0
+useLogNameTimeStamp = False
