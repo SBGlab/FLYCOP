@@ -1,85 +1,106 @@
 # Use an official Python runtime as a parent image
 FROM amd64/ubuntu:20.04
-
+ARG DEBIAN_FRONTEND=noninteractive
 # Set the working directory to /home
 WORKDIR /home
 
 # Copy the current directory contents into the container at /home
 ADD . /home
-RUN mv jdk1.8.0_101/ /usr/java/
+#RUN mv jdk1.8.0_101/ /usr/java/
 
 
 # Install required packages
-# 1.1.- COBRApy
+# 1.1.- COBRApy and COMETS requirements
 
-RUN apt-get -y update
-RUN apt-get -y install \
+RUN apt -y update
+RUN apt -y install \
     python3 \
+    python3-pip \
     ipython3 \
     libxtst6 \
-    emacs \
-    man \
     firefox \
     nano \
     libtool \
     curl \
     apt-transport-https \
     ca-certificates \
-    libcurl4-openssl-dev
-    less
+    libcurl4-openssl-dev \
+    default-jre \
+    build-essential \
+    software-properties-common \
+    dirmngr \
+    lsb-release \
+    swig
 
-RUN pip install -U pip
-RUN pip install cobra \
+# 1.2 Install SMAC requirements
+
+RUN pip3 install -U pip
+RUN pip3 --use-feature=2020-resolver install cobra \
       cometspy \
       python-libsbml \
       lxml \
       numpy \
       scipy \
+      psutil \
+      pynisher \
+      ConfigSpace \
+      joblib \
+      scikit-learn \
+      pyrfr \
+      lazy_import \
+      dask \
+      distributed \
       matplotlib \
       mpld3 \
       pandas \
       tabulate \
       massedit \
       plotly \
-      opt
+      smac
 
 
 # 2.- CONFIGURE account (.bashrc)
 WORKDIR /home
-RUN mv .bashrc /root/
+#RUN mv .bashrc /root/
 
 # 3.- R package installation
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9 && \
     add-apt-repository 'deb https://cloud.r-project.org/bin/linux/ubuntu focal-cran40/'
 
-RUN apt update && apt install r-base
+RUN apt update
+RUN apt -y install r-base
 
 
 RUN Rscript --vanilla installRpackages.r
-#installRpackages.r:
-#       install.packages("car", repos = "http://cran.us.r-project.org")
-#       install.packages("ellipse", repos = "http://cran.us.r-project.org")
-#       install.packages("RColorBrewer", repos = "http://cran.us.r-project.org")
-RUN rm installRpackages.r*
+RUN rm installRpackages.r
 RUN rm Dockerfile*
-RUN rm -R FLYCOP/.git/
 
 # Make port 80 available to the world outside this container
 #EXPOSE 80
 
 # Define environment variable
-#ENV NAME World
+ENV GUROBI_HOME /home/gurobi900/linux64
+ENV COMETS_HOME /home/comets
+ENV GRB_LICENSE_FILE /home/gurobi900/linux64/gurobi.lic
+ENV R_LIBS_USER=/usr/lib/R/site-library:/usr/lib/R/library
+ENV PATH="{$GUROBI_HOME}/bin:/home/SMAC/smac-v2.10.03-master-778:${PATH}"
+# 4.- Install gurobi
+#
+#RUN alias python=python3
+#RUN cd $GUROBI_HOME &&
+#RUN python3 setup.py install
+
 
 # Define default command.
 CMD ["/bin/bash"]
 
 
 ##### TO BUILD THE IMAGE, in the docker-flycop folder:
-## docker build -t beatrizgj/docker-flycop .
+## docker build -t SBGlab/docker-flycop .
 ##### TO CHECK docker image exist
 ## docker image ls
 ##### TO CALL THE IMAGE in an interactive session:
-## docker run -it beatrizgj/docker-flycop
+## docker run -it SBGlab/docker-flycop
 ## docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY beatrizgj/docker-flycop
 ## docker run -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" beatrizgj/docker-flycop
 ### Sharing folder with the host machine:

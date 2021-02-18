@@ -341,6 +341,7 @@ model_file	ecoli_1_tmp.cmd	ecoli_2_tmp.cmd
 		MediaLogName = media_log_template.txt   
 		writeFluxLog = True
 		FluxLogName = flux_log_template.txt
+		FluxLogRate = 1
 		spaceWidth = 0.05	
 		allowCellOverlap = True
 		deathRate = 0

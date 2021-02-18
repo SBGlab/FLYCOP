@@ -33,8 +33,9 @@ if (length(args)<10) {
 xMax=endCycle
 
 df=read.csv(inputFile,sep='\t',header=FALSE,col.names=c('hours','biomass1','biomass2','sub1','sub2','sub3','sub4'))
-yMax=max(df$biomass1,df$biomass2)
-y2Max=max(df$sub1,df$sub2,df$sub3,df$sub4)
+yMax=max(df$biomass1,df$biomass2,na.rm=TRUE)
+y2Max=max(df$sub1,df$sub2,df$sub3,df$sub4,na.rm=TRUE)
+df=df[!is.na(df$sub1),]
 
 pdf(outFile,pointsize=20)
 par(lwd=3)
