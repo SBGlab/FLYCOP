@@ -1,8 +1,9 @@
 ---
-title: "FLYCOP 1.5"
-author: "Ana del Ramo"
-author: "David San Leon Granado"
-author: "Beatriz Garcia-Jimenez"
+Version: "FLYCOP 1.5"
+author:
+  - "Ana del Ramo Galian"
+  - "David San Leon Granado"
+  - "Beatriz Garcia-Jimenez"
 ---
 
 ![](FLYCOP_logo.jpg)
