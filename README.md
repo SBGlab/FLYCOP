@@ -89,7 +89,7 @@ python3 ../../Scripts/consortiumPrefix_individualTestFLYCOP.py <arg1> ... <argN>
 ```
 where:
 
-* *consortiumPrefix* could take value in {*synKtPHA*, *coGrowth4Ecoli*, *ecoliLongTerm*} for the already 3 FLYCOP designed consortia
+* *consortiumPrefix* could take value in {*ecoliLongTerm*} for the already FLYCOP designed consortia
 * *\<arg1> ... \<argN>* represents the user-given configuration values for this particular consortium which is going to be simulated and evaluated.  
 
 For example:
