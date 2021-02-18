@@ -1,6 +1,8 @@
 ---
-title: "FLYCOP"
-author: "Beatriz García-Jiménez"
+title: "FLYCOP 1.5"
+author: "Ana del Ramo"
+author: "David San Leon Granado"
+author: "Beatriz Garcia-Jimenez"
 ---
 
 ![](FLYCOP_logo.jpg)
@@ -15,64 +17,30 @@ FLYCOP contributes with multiple and assorted applications, such as simulating d
 
 **Beatriz García-Jiménez, José Luis García, Juan Nogales; FLYCOP: metabolic modeling-based analysis and engineering microbial communities, Bioinformatics, Volume 34, Issue 17, 1 September 2018, Pages i954–i963, [doi: 10.1093/bioinformatics/bty561](https://doi.org/10.1093/bioinformatics/bty561)**
 
-So far, FLYCOP has been applied to design and optimize 3 different microbial consortia:
-
-* Co-growth 4 auxotrophic *E. coli* [*coGrowth4Ecoli*]  
-* Describing microbial community evolution, in *E. coli* polimorphism [*ecoliLongTerm*]  
-* *S. elongatus-P. putida* synthetic consortium producing bio-plastic (polyhydroxyalkanoate, PHA)  [*synKtPHA*]   
-
 
 ***
 ### Installation
-FLYCOP software run in LINUX OS. FLYCOP can be run in (a) a docker container (recommended) or (b) installing the pre-requisites individual software by yourself. 
 
-#### (a) Docker container (recommended):
+#### (a) Your-self installation: basic pre-requisites
 
-Once you have the [docker](https://docs.docker.com/) daemon running, download the docker-flycop container from the cloud:
-```{sh eval=FALSE}  
-docker pull beatrizgj/docker-flycop
-```
-
-And run the FLYCOP container:
-```{sh eval=FALSE}
-docker run -it beatrizgj/docker-flycop
-```
-
-Or you could use additional parameters (*-it*,*-env*,*-volume*) to have an interactive bash shell, exporting the display, and sharing a folder between the local host (/home/user/DockerOutput/) and the container (/home/host/) to allow moving files easily.
-```{sh eval=FALSE}
-xhost +local:root
-docker run -it --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" --volume="/home/user/DockerOutput/:/home/host/:rw" beatrizgj/docker-flycop
-xhost -local:root
-```
-
+FLYCOP software run in LINUX OS. FLYCOP can be run installing the pre-requisites individual software by yourself. 
 Define the location of your personal [gurobi](http://www.gurobi.com/academia/for-universities) solver license (required by COMETS) in the container (for example, \<path_to_gurobi_license\>=/home/user):
 ```{sh eval=FALSE}
 GRB_LICENSE_FILE=<path_to_gurobi_license>/gurobi.lic
 ```
 
-Move to the FLYCOP software directory:
-```{sh eval=FALSE}
-cd FLYCOP
-```
-##### Docker image
-
-The docker configuration can be found in https://hub.docker.com/r/beatrizgj/docker-flycop/tags
-
-#### (b) Your-self installation: basic pre-requisites
-
 FLYCOP pipeline uses some software (and all their dependencies), which must be installed before:
 
-* [COBRApy](https://opencobra.github.io/cobrapy/): python package (checked with v0.5.11)  
-* [COMETS](http://www.bu.edu/segrelab/comets/) (v2.0.3) (faster with gurobi solver)  
+* [COBRApy](https://opencobra.github.io/cobrapy/): python package (version >=0.20)  
+* [COMETS](http://www.bu.edu/segrelab/comets/) (v2.10) (faster with gurobi solver)  
+* [cometspy](http://www.bu.edu/segrelab/cometspy/) (v0.4.1) (faster with gurobi solver)
 * [SMAC](http://www.cs.ubc.ca/labs/beta/Projects/SMAC/) (in Java, v2.10.03)   
 Additionally, [R software](https://www.r-project.org/) is required.
-
-
 
 ***
 ### Input and output description
 
-After required software installation, you can run FLYCOP for the 3 microbial consortia where FLYCOP was applied with the files provided in this site.
+After required software installation, you can run FLYCOP for the microbial consortia where FLYCOP was applied with the files provided in this site. And you can check the template for the FLYCOP pipeline provided to modify with an specific microbial consortium.
 If you want to apply FLYCOP to design and optimize a new consortium, you could take as template the available files from one of the optimized consortia, and then to code the following required inputs to FLYCOP, described here:
 
 ####  *INPUT:*
@@ -87,13 +55,9 @@ If you want to apply FLYCOP to design and optimize a new consortium, you could t
 
 ##### Genome-scale models
 
-GEMs used by FLYCOP cases of study can be obtained from [BiGG models database](http://bigg.ucsd.edu/) or from their respective publications (in matlab format):  
+GEMs used by FLYCOP cases of study can be obtained from [BiGG models database](http://bigg.ucsd.edu/) or from their respective publications (in SBML format):  
 
-* iAF1260 [[Feist et al., 2007]](https://doi.org/10.1038/msb4100155)  
 * iJO1366 [[Orth et al.,2011]](https://doi.org/10.1038/msb.2011.65)  
-* iJB785 [[Broddrick et al.,2016]](https://doi.org/10.1073/pnas.1613446113)  
-* iJN1411  [[Nogales et al.,2017]](https://doi.org/10.1101/139121)  
-
 
 ####  *OUTPUT:*  
 FLYCOP provides different resources for robustness, sensitivity and data analysis support, being the most relevant the following ones:  
