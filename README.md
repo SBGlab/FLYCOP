@@ -79,44 +79,5 @@ FLYCOP provides different resources for robustness, sensitivity and data analysi
 * Growth curves of all explored consortium configurations  
 
 ***
-### Running FLYCOP
-After defining the required files for a specific microbial consortium design (see INPUT section below), you can search the best configuration with FLYCOP. This call includes an automatic data analysis of the resulting evaluated multiple consortium configurations.
-```{sh eval=FALSE}
-sh FLYCOP.sh <consortiumPrefix> <Y> V<A> <fitnessFunction> <numberOfConfigurations>
-```
-For example (for a short run with only 10 configurations):
-```{sh eval=FALSE}
-sh FLYCOP.sh 'ecoliLongTerm' 2 V0 'Yield' 10
-```
-
-Also, a particular consortium configuration can be simulated with:
-```{sh eval=FALSE}
-cd MicrobialCommunities
-cp -p -R ConsortiumPrefix_TemplateOptimizeConsortiumV<A> ConsortiumPrefix_Test<Y>
-cd ConsortiumPrefix_Test<Y>
-python3 ../../Scripts/consortiumPrefix_individualTestFLYCOP.py <arg1> ... <argN>
-```
-where:
-
-* *consortiumPrefix* could take value in {*ecoliLongTerm*} for the already FLYCOP designed consortia
-* *\<arg1> ... \<argN>* represents the user-given configuration values for this particular consortium which is going to be simulated and evaluated.  
-
-For example:
-```{sh eval=FALSE}
-cd MicrobialCommunities
-cp -p -R ecoliLongTerm_TemplateOptimizeConsortiumV0 ecoliLongTerm_Test2
-cd ecoliLongTerm_Test2
-python3 ../../Scripts/ecoliLongTerm_individualTestFLYCOP.py -10 -16 -11 -12 -6 -16 'Yield'
-```
-
-Several exploratory individual consortium simulations are recommended before running the complete FLYCOP pipeline.
-
-***
-### Runtime
-
-An individual configuration takes some minutes. However, a complete FLYCOP run usually take several hours, depending on several parameters. The main one is the number of different consortium configurations to evaluate, defined in 'consortiumPrefix_confFLYCOP_scenario_v\<Y>.txt'. For 500 configurations, FLYCOP usually takes around 10-12 hours in a 16GB RAM computer. Other parameters with less influence on runtime are the number of cycles over the consortium configuration is simulated (defined in ConsortiumPrefix_TemplateOptimizeConsortiumV\<A>/consortiumPrefix_layout_template.txt).
-
-***
-
 
 
