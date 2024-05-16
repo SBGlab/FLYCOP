@@ -32,12 +32,21 @@ GRB_LICENSE_FILE=<path_to_gurobi_license>/gurobi.lic
 
 FLYCOP pipeline uses some software (and all their dependencies), which must be installed before:
 
-* [COBRApy](https://opencobra.github.io/cobrapy/): python package (version >=0.20)  
 * [COMETS](http://www.bu.edu/segrelab/comets/) (v2.10) (faster with gurobi solver)  
-* [cometspy](http://www.bu.edu/segrelab/cometspy/) (v0.4.1) (faster with gurobi solver)
-* [SMAC](http://www.cs.ubc.ca/labs/beta/Projects/SMAC/) (in Java, v2.10.03)   
+
 Additionally, [R software](https://www.r-project.org/) is required.
 
+#### Installation
+```
+#Create a conda environment
+conda create -n FLYCOP python=3.8 pip
+# Activate the environment
+conda activate FLYCOP
+# Install SWIG requirement
+conda install gxx_linux-64 gcc_linux-64 swig
+# INSTALL FLYCOP package
+pip install FLYCOP
+```
 ***
 ### Input and output description
 
