@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0","smac>=2.1.0","cometspy>=0.4.2","gurobipy==10.0.3"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "FLYCOP"
+version = "1.6.0"
+authors = [
+  { name="SBG Team", email="dsanleon@cnb.csic.es" },
+]
+description = "FLYCOP"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+
+[project.urls]
+Homepage = "https://github.com/SBGlab/FLYCOP"
+Issues = "https://github.com/SBGlab/FLYCOP/issues"
