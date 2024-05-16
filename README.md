@@ -49,19 +49,7 @@ pip install FLYCOP
 ```
 ***
 ### Input and output description
-
-After required software installation, you can run FLYCOP for the microbial consortia where FLYCOP was applied with the files provided in this site. And you can check the template for the FLYCOP pipeline provided to modify with an specific microbial consortium.
-If you want to apply FLYCOP to design and optimize a new consortium, you could take as template the available files from one of the optimized consortia, and then to code the following required inputs to FLYCOP, described here:
-
-####  *INPUT:*
-  
-  1. **FLYCOP pipeline _ad-hoc_ for a specific microbial consortium** [consortiumPrefixFLYCOP.py]: it means a python script to run a single configuration, including how to: 1) dynamically update single models and community parameters depending on the parametrized consortium configuration, 2) simulate that configured consortium in a dynamic way, and 3) evaluate the quality of the given consortium using a fitness function. This file also must include the method *initialize_models()* to update the original single strain genome scale metabolic models (GEMs) to use as base in the consortium optimization.
-  2. **ConsortiumPrefix_TemplateFolder** [ConsortiumPrefix_TemplateOptimizeConsortiumV\<A>]: a directory including a layout file with the culture medium definition, the original GEMs (in matlab format) and the consortium simulation configuration.
-  3. **Optimization configuration** [consortiumPrefix_confFLYCOP_scenario_v\<Y>.txt]: it defines the number of consortium configurations to evaluate (numberOfRunsLimit) and identifies the two files describing the consortium optimization:  
-    + **Parameter values** [consortiumPrefix_confFLYCOP_params_v\<Z>.pcs]: it lists the range of values per parameter (in SMAC format), among those to choose by the Stochastic Local Search procedure.  
-    + **Wrapper file** [consortiumPrefix_wrapperFLYCOP_v\<Y>.py]: to select the fitness function to optimize, to define the 'version identifier' for all results files, and to call the FLYCOP pipeline.  
-  
-"ConsortiumPrefix_TemplateFolder" must be located in *MicrobialCommunities/* directory, and the remaining input files in *Scripts/* directory.
+TODO
 
 ##### Genome-scale models
 
