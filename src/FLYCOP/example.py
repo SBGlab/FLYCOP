@@ -1,15 +1,15 @@
 # Python code to demonstrate the working of FLYCOP2
 
-import FLYCOP2 as flycop
+
 import os
 import sys
 import time
 import json
 import numpy as np
 
-from FLYCOP2 import FLYCOP2
-from FLYCOP2 import ParameterOptimizer
-from FLYCOP2 import SMAC3Optimizer
+from . import FLYCOP2 as flycop
+from . import ParameterOptimizer
+from . import SMAC3Optimizer
 
 def main():
     # Create a FLYCOP2 object

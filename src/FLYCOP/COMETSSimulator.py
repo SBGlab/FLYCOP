@@ -1,9 +1,9 @@
 ﻿# Clase interfaz con COMETS para definir una simulación FBA
 from tkinter import N
 import cometspy
-from Consortia import Consortia
+from . import Consortia
 import warnings
-from Simulator import Simulator
+from . import Simulator
 import pandas as pd
 import copy
 import matplotlib as plt

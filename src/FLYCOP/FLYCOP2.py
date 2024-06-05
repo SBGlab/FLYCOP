@@ -3,8 +3,8 @@
 # FLYCOP2 class with the main functions, it contains a consortia object, a set of parameters to optimize, an objective function, 
 # a parameter optimizator obj and a dynamic FBA simulation obj called simulator
 from tkinter import SE
-from SimulatorFactory import SimulatorFactory
-from OptimizerFactory import OptimizerFactory
+from . import SimulatorFactory
+from . import OptimizerFactory
 from ConfigSpace import Configuration, ConfigurationSpace, Float
 #import Fitness
 class FLYCOP2:

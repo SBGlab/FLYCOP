@@ -36,7 +36,7 @@ class SMAC3Optimizer(ParameterOptimizer):
         print("The optimizer was created")
 
     def set_optimization_space(self,cs:ConfigurationSpace):
-        # Implementación específica para definir el espacio de optimización en SMAC3
+        # set the space
         self.configuration_space=cs
 
     def set_scenario(self,params):
@@ -49,7 +49,7 @@ class SMAC3Optimizer(ParameterOptimizer):
 
 
     def load_configuration_space(self, cs):
-        # Implementación específica para cargar el espacio de configuración en SMAC3
+        # get the space
         conf=ConfigurationSpace(seed=0)
         for x in cs:
             if x['type'] == 'float':
@@ -61,7 +61,7 @@ class SMAC3Optimizer(ParameterOptimizer):
         self.configuration_space=conf
 
     def load_scenario(self, scenario):
-        # Implementación específica para cargar el escenario en SMAC3, la entrada es un diccionario de valores
+        # Implementaciï¿½n especï¿½fica para cargar el escenario en SMAC3, la entrada es un diccionario de valores
         #Check if the keys included in the scenario are valid
         
         valid_keys=["n_trials","deterministic"] #TODO add more keys if needed
@@ -75,17 +75,17 @@ class SMAC3Optimizer(ParameterOptimizer):
             self.scenario=Scenario(configspace=self.configuration_space,n_trials=scenario["n_trials"],deterministic=scenario["deterministic"])
 
     def load_objective_function(self, objective_function):
-        # Implementación específica para cargar la función objetivo en SMAC3
+        # Implementaciï¿½n especï¿½fica para cargar la funciï¿½n objetivo en SMAC3
         #Check if the objective function is a function
         if not callable(objective_function):
             raise ValueError("Objective function is not a function")
         self.objective_function=objective_function
         
     def run_optimization(self):
-        # Implementación específica para ejecutar la optimización en SMAC3
-        # Aquí, 'objective_function' es la función que queremos optimizar
-        # Definir el espacio de búsqueda de parámetros
-        # Ejecutar la optimización
+        # Implementaciï¿½n especï¿½fica para ejecutar la optimizaciï¿½n en SMAC3
+        # Aquï¿½, 'objective_function' es la funciï¿½n que queremos optimizar
+        # Definir el espacio de bï¿½squeda de parï¿½metros
+        # Ejecutar la optimizaciï¿½n
         #Check if scenario is loaded
         if self.scenario is None:
             raise ValueError("Scenario not loaded")
@@ -106,11 +106,11 @@ class SMAC3Optimizer(ParameterOptimizer):
 
 
     def get_best_parameters(self):
-        # Implementación específica para obtener los mejores parámetros de SMAC3
+        # Implementaciï¿½n especï¿½fica para obtener los mejores parï¿½metros de SMAC3
         pass
 
     def visualize_results(self):
-        # Implementación específica para visualizar los resultados de SMAC3
+        # Implementaciï¿½n especï¿½fica para visualizar los resultados de SMAC3
         # Plot the trajectory of the optimization
         self.SMAC.solver.trajectory.plot_trajectory()
         plt.show()
