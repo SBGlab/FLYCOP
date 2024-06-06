@@ -1,8 +1,12 @@
-# Clase abstracta que define el comportamiento de un optimizador de consortios donde se podrían usar diferentes algoritmos de optimización como los de SMAC3
+# Clase abstracta que define el comportamiento de un optimizador de consortios donde se podrï¿½an usar diferentes algoritmos de optimizaciï¿½n como los de SMAC3
 #, DEAP, etc.
 from abc import ABC, abstractmethod
 
 class ParameterOptimizer(ABC):
+    @abstractmethod
+    def __init__(self):
+        pass
+    
     @abstractmethod
     def load_configuration_space(self, configuration_space):
         pass

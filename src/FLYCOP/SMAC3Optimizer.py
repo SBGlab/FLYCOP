@@ -2,7 +2,7 @@ from pickle import NONE
 import numpy as np
 from ConfigSpace import Configuration, ConfigurationSpace, Float, Integer, Categorical
 from matplotlib import pyplot as plt
-from Optimizer import ParameterOptimizer
+from .Optimizer import ParameterOptimizer
 from smac import HyperparameterOptimizationFacade as HPOFacade
 from smac import RunHistory, Scenario
 

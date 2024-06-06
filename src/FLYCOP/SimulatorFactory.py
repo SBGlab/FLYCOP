@@ -5,16 +5,16 @@ class SimulatorFactory:
     @staticmethod
     def createSimulator(simulator_type):
         if simulator_type == "dFBA":
-            from dFBASimulator import dFBASimulator
+            from .dFBASimulator import dFBASimulator
             return dFBASimulator()
         elif simulator_type == "COMETS":
-            from COMETSSimulator import COMETSSimulator
+            from .COMETSSimulator import COMETSSimulator
             return COMETSSimulator()
         elif simulator_type == "surfin_FBA":
-            from SurfinFBASimulator import SurfinFBASimulator
+            from .SurfinFBASimulator import SurfinFBASimulator
             return SurfinFBASimulator()
         elif simulator_type == "MMODES":
-            from MMODESSimulator import MMODESSimulator
+            from .MMODESSimulator import MMODESSimulator
             return MMODESSimulator()
         else:
             raise ValueError("Simulator type not supported")

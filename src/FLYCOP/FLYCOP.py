@@ -7,7 +7,7 @@ from .SimulatorFactory import SimulatorFactory
 from .OptimizerFactory import OptimizerFactory
 from ConfigSpace import Configuration, ConfigurationSpace, Float
 #import Fitness
-class FLYCOP2:
+class FLYCOP:
     # Constructor
     def __init__(self,simulator_type="COMETS",optimizator_type="SMAC3"):
         self.simulator = self.create_simulator(simulator_type)
@@ -37,7 +37,7 @@ class FLYCOP2:
         # Set the parameters for the simulator
         self.simulator.set_params(parameters)
 
-    def set_simulator(simulator):
+    def set_simulator(self,simulator):
         # Set the simulator object
         self.simulator=simulator
 

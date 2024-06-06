@@ -1,4 +1,4 @@
-from Simulator import Simulator
+from .Simulator import Simulator
 class dFBASimulator(Simulator):
     def load_model(self, model_file):
         # Specific implementation for loading the model in dFBA

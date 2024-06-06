@@ -7,13 +7,13 @@ import time
 import json
 import numpy as np
 
-from . import FLYCOP2 as flycop
-from . import ParameterOptimizer
-from . import SMAC3Optimizer
+from .FLYCOP import FLYCOP as flycop
+from .Optimizer import ParameterOptimizer
+from .SMAC3Optimizer import SMAC3Optimizer
 
 def main():
     # Create a FLYCOP2 object
-    flycop2 = FLYCOP2()
+    flycop2 = flycop.FLYCOP()
 
     # Load the consortia
     flycop2.consortia = flycop.Consortia()

@@ -1,5 +1,5 @@
 from mmodes import Consortium
-from Simulator import Simulator
+from .Simulator import Simulator
 class MMODESSimulator(Simulator):
     def __init__(self):
         super().__init__()

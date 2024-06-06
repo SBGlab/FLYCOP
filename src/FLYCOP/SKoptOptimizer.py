@@ -1,25 +1,27 @@
 from skopt import gp_minimize
+from .Optimizer import ParameterOptimizer
 
 class SkoptOptimizer(ParameterOptimizer):
     def load_configuration_space(self, configuration_space):
-        # No es necesario cargar un espacio de configuración específico en scikit-optimize
+        # No es necesario cargar un espacio de configuraciï¿½n especï¿½fico en scikit-optimize
         pass
 
     def run_optimization(self, objective_function):
-        # Ejemplo de implementación de optimización con scikit-optimize
-        # Aquí, 'objective_function' es la función que queremos optimizar
+        # Ejemplo de implementaciï¿½n de optimizaciï¿½n con scikit-optimize
+        # Aquï¿½, 'objective_function' es la funciï¿½n que queremos optimizar
 
-        # Definir el espacio de búsqueda de parámetros
-        space = [(-10.0, 10.0)]  # Ejemplo de un parámetro en el rango de -10 a 10
+        # Definir el espacio de bï¿½squeda de parï¿½metros
+        space = [(-10.0, 10.0)]  # Ejemplo de un parï¿½metro en el rango de -10 a 10
 
-        # Ejecutar la optimización
+        # Ejecutar la optimizaciï¿½n
         result = gp_minimize(objective_function, space)
 
         return result
 
     def get_best_parameters(self, result):
-        # Obtener los mejores parámetros de la optimización de scikit-optimize
+        # Obtener los mejores parï¿½metros de la optimizaciï¿½n de scikit-optimize
         return result.x
 
     def visualize_results(self, result):
-        # Visualizar los resultados de la optimización de scikit-optimize si es necesario
+        # Visualizar los resultados de la optimizaciï¿½n de scikit-optimize si es necesario
+        return result
