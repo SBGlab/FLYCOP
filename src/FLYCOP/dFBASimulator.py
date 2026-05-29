@@ -1,5 +1,13 @@
 from .Simulator import Simulator
+
 class dFBASimulator(Simulator):
+    def __init__(self):
+        super().__init__()
+
+    def load_consortia(self, consortia, initial_biomass=None):
+        # Specific implementation for loading consortia in dFBA
+        pass
+
     def load_model(self, model_file):
         # Specific implementation for loading the model in dFBA
         pass

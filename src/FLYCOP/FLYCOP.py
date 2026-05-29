@@ -1,20 +1,20 @@
 # Main of FLYCOP2
 
-# FLYCOP2 class with the main functions, it contains a consortia object, a set of parameters to optimize, an objective function, 
+# FLYCOP2 class with the main functions, it contains a consortia object, a set of parameters to optimize, an objective function,
 # a parameter optimizator obj and a dynamic FBA simulation obj called simulator
-from tkinter import SE
 from .SimulatorFactory import SimulatorFactory
 from .OptimizerFactory import OptimizerFactory
+from .Fitness import Fitness
 from ConfigSpace import Configuration, ConfigurationSpace, Float
 #import Fitness
 class FLYCOP:
     # Constructor
     def __init__(self,simulator_type="COMETS",optimizator_type="SMAC3"):
-        self.simulator = self.create_simulator(simulator_type)
+        self.create_simulator(simulator_type)
         self.parameters = None
-        #self.objective_function = Fitness()
+        self.objective_function = Fitness()
         self.scenario=FLYCOP_scenario(self.simulator)
-        self.optimizator = self.create_optimizator(optimizator_type)
+        self.create_optimizator(optimizator_type)
 
     def load_consortia(self,model_list=list):
         # Load consortia from mode list
@@ -98,6 +98,8 @@ class FLYCOP_scenario:
     def __init__(self,simulator,fitness=None):
         self.simulator=simulator
         self.fitness=fitness
+        self.consortia=None
+
     def configspace(self,configuration_dict) -> ConfigurationSpace:
         # Function to define the configuration space for the optimization
         # Input: None
@@ -113,7 +115,7 @@ class FLYCOP_scenario:
         # Input: scenario
         # Output: None
         # Asign the new scenario to the object
-        setattr(self, "scenario", scenario.__get__(self, FLYCOP_scenario))
+        self.scenario = scenario
         print("The new scenario was created")
 
     def optimize(self,config:Configuration)->float:
@@ -122,18 +124,18 @@ class FLYCOP_scenario:
         # Output: fitness value
         
         # Retrieve the parameters to be optimized, biomasses, uptakes, etc.
-        for key, value in config.items():
+        params = dict(config.items())
+        for key, value in params.items():
             print(f"{key}: {value}")
-            locals()[key] = value
         # Run the simulation
-        biomass_variables = [value for key, value in locals().items() if key.startswith('biomass')]
+        biomass_variables = [value for key, value in params.items() if key.startswith('biomass')]
         # Set the biomass variables if they are included in the configuration
         if biomass_variables:
             self.simulator.load_consortia(self.consortia,biomass_variables)
         else:
             self.simulator.load_consortia(self.consortia)
         # Set the bounds parameters if they are included in the configuration they follow the format XXXX_lb and XXXX_ub where XXXX is the name of the reaction
-        bounds_variables = {key: value for key, value in locals().items() if key.endswith('_lb') or key.endswith('_ub')}
+        bounds_variables = {key: value for key, value in params.items() if key.endswith('_lb') or key.endswith('_ub')}
         # Check if bounds_variables is empty
         if bounds_variables:
             #Extract the reaction name from the key
@@ -142,7 +144,7 @@ class FLYCOP_scenario:
 
         # Set the media variables if they are included in the configuration
         # The media variables follow the format XXXX_e where XXXX is the metabolite name and they dont start with EX_
-        media_variables = {key: value for key, value in locals().items() if not key.startswith('EX_') and key.endswith('_e')}
+        media_variables = {key: value for key, value in params.items() if not key.startswith('EX_') and key.endswith('_e')}
         # Check if media_variables is empty
         if media_variables:
             self.simulator.load_media(media_variables)

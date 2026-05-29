@@ -1,3 +1,4 @@
+import cobra
 from cobra import Model
 from cobra.io import load_model
 import matplotlib.pyplot as plt
@@ -20,7 +21,7 @@ class Consortia:
             else:
                 raise TypeError('The species must be a list of cobra.Model objects')
 
-    def uniformize():
+    def uniformize(self):
         # Function to standardize the models of consortium species with a common namespace for metabolites and reactions
         # Uses the BiGG namespace
         # Input: None
@@ -116,8 +117,8 @@ class Consortia:
             G.add_edge(communication[0], communication[1])
             # Include the exchange metabolite in the communication
             G[communication[0]][communication[1]]['metabolite'] = communication[2]
-            pos = graphviz_layout(G, prog="neato")
-            nx.draw(G, pos, with_labels=True, arrows=True)
+        pos = graphviz_layout(G, prog="neato")
+        nx.draw(G, pos, with_labels=True, arrows=True)
         plt.show()
 
     def get_consortia_communications_flux(self):
@@ -138,14 +139,13 @@ class Consortia:
             for metabolite in specie.metabolites:
                 if metabolite.id.endswith("_e") and any(reaction.id.startswith("EX_") for reaction in metabolite.reactions):
                     # Check that the metabolite has an exchange reaction with ID EX_XXXXX
-                    # Check the flux of the exchange reaction
-                    if metabolite in specie2.metabolites:
-                        flux_specieA_max = specieA_fva.loc["EX_" + metabolite.id[:-2], "maximum"]
-                        flux_specieA_min = specieA_fva.loc["EX_" + metabolite.id[:-2], "minimum"]
-                        for specie2 in self.species[idx:]:
+                    flux_specieA_max = specieA_fva.loc["EX_" + metabolite.id[:-2], "maximum"]
+                    flux_specieA_min = specieA_fva.loc["EX_" + metabolite.id[:-2], "minimum"]
+                    for specie2 in self.species[idx:]:
+                        if metabolite in specie2.metabolites:
                             specieB_fva = cobra.flux_analysis.flux_variability_analysis(specie2, loopless=True)
-                            flux_specieB_max = specieA_fva.loc["EX_" + metabolite.id[:-2], "maximum"]
-                            flux_specieB_min = specieA_fva.loc["EX_" + metabolite.id[:-2], "minimum"]
+                            flux_specieB_max = specieB_fva.loc["EX_" + metabolite.id[:-2], "maximum"]
+                            flux_specieB_min = specieB_fva.loc["EX_" + metabolite.id[:-2], "minimum"]
                             # Check if the fluxes are compatible, if the maximum or minimum of specieA has the opposite sign to the maximum or minimum of specieB
                             if (flux_specieA_max * flux_specieB_max < 0) or (flux_specieA_min * flux_specieB_min < 0):
                                 communications.append((specie.name, specie2.name, metabolite.id))
@@ -158,23 +158,6 @@ class Consortia:
         # Input: Culture medium
         # Output: List of tuples with communications between consortium species
         communications = []
-        communications = self.get_consortia_communications(self)
-
-    def draw_consortia(self):
-        # Function to draw the consortium, species are drawn along with communications between them,
-        # and exchange metabolites are displayed on the edges representing communications
-        # Input: None
-        # Output: None
         communications = self.get_consortia_communications()
-        G = nx.Graph()
-        for specie in self.species:
-            G.add_node(specie.name)
-        for communication in communications:
-            G.add_edge(communication[0], communication[1])
-            # Include the exchange metabolite in the communication
-            G[communication[0]][communication[1]]['metabolite'] = communication[2]
-            pos = graphviz_layout(G, prog="neato")
-            nx.draw(G, pos, with_labels=True, arrows=True)
-        plt.show()
 
 

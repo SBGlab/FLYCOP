@@ -12,7 +12,7 @@ class Fitness:
 
     def remove_fitness_function(self, fitness_function):
         if fitness_function in self.fitness_functions:
-            self.fitness_functions.remove(fitness_function)
+            del self.fitness_functions[fitness_function]
         else:
             print(f"{fitness_function} is not in the repository.")
 
@@ -47,5 +47,5 @@ class Fitness:
         # Adds a fitness function to maximize the production of biomass
         # Get the biomass column names, the columns names contain the word "biomass"
         columns_biomass = biomasses.filter(like='biomass').columns
-        biomasses_values= biomasses.iloc[-2][columnas_biomass]
+        biomasses_values= biomasses.iloc[-2][columns_biomass]
         return(1/sum(biomasses_values))

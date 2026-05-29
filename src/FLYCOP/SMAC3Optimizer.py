@@ -22,17 +22,13 @@ class SMAC3Optimizer(ParameterOptimizer):
                 raise ValueError("The selected configuration space is invalid")
         #self.scenario=Scenario(self.configuration_space,deterministic=self.parameters["deterministic"], n_trials=self.parameters["max_evaluations"]) # Create a SMAC scenario TODO add n_trials as parameter
         # check if the objective funcion is a function
-        if objective_function is not None:
-            if not callable(objective_function):
-                raise ValueError("Objective function is not a function")
-        else:
-            self.objective_function=objective_function
+        if objective_function is not None and not callable(objective_function):
+            raise ValueError("Objective function is not a function")
+        self.objective_function = objective_function
         #Check if the Facade is none or a facade HPOFacade class
-        if facade is not None:
-            if not isinstance(facade,HPOFacade):
-                raise ValueError("The selected Facade is invalid")
-        else:
-            self.SMAC=facade
+        if facade is not None and not isinstance(facade, HPOFacade):
+            raise ValueError("The selected Facade is invalid")
+        self.SMAC = facade
         print("The optimizer was created")
 
     def set_optimization_space(self,cs:ConfigurationSpace):

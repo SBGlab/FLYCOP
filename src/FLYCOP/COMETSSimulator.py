@@ -6,13 +6,13 @@ import warnings
 from .Simulator import Simulator
 import pandas as pd
 import copy
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 class COMETSSimulator(Simulator):
     def __init__(self):
         super().__init__()
         self.consortia = []
-        self.simulation_params =  self.initialize_params(None, None)
+        self.simulation_params = cometspy.params()
         self.set_default_parameters()
         self.results = None
         self.simulation = None
@@ -29,7 +29,7 @@ class COMETSSimulator(Simulator):
         comets_model=cometspy.model()
         comets_model.load_cobra_model(model_file)
         comets_model.initial_pop = [0, 0, 0.1]
-        self.consortia.append()
+        self.consortia.append(comets_model)
         self.layout.add_model(comets_model)
 
 
