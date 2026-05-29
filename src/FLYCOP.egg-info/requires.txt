@@ -1,0 +1,13 @@
+cobra==0.29.1
+cometspy==0.5.2
+gurobipy==11.0.3
+smac==2.4.0
+optuna==4.8.0
+pandas>=2.2.3
+numpy>=2.2.3
+matplotlib>=3.10.8
+networkx>=3.6.1
+
+[dev]
+pytest>=9.0.2
+scikit-optimize

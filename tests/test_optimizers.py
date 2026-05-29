@@ -111,14 +111,17 @@ class TestSKoptOptimizerInit(unittest.TestCase):
         opt = SKoptOptimizer(parameters=params)
         self.assertEqual(opt.parameters, params)
 
-    def test_default_parameters_is_empty_dict(self):
+    def test_default_parameters_has_n_trials(self):
+        """Default parameters now include n_trials=100 to match the canonical interface."""
         opt = SKoptOptimizer()
-        self.assertEqual(opt.parameters, {})
+        self.assertIn("n_trials", opt.parameters)
+        self.assertEqual(opt.parameters["n_trials"], 100)
 
-    def test_configuration_space_stored(self):
-        cs = MagicMock()
+    def test_configuration_space_accepted_as_canonical_list(self):
+        """configuration_space must be the canonical list-of-dicts format."""
+        cs = [{"type": "float", "name": "p1", "min": 0.0, "max": 1.0}]
         opt = SKoptOptimizer(configuration_space=cs)
-        self.assertIs(opt.configuration_space, cs)
+        self.assertEqual(opt._param_list, cs)
 
 
 if __name__ == "__main__":

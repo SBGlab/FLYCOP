@@ -41,16 +41,18 @@ cobra_flux_mock = MagicMock()
 cobra_mock.flux_analysis = cobra_flux_mock
 cobra_mock.io = cobra_io_mock
 
-sys.modules.setdefault("cobra", cobra_mock)
-sys.modules.setdefault("cobra.io", cobra_io_mock)
-sys.modules.setdefault("cobra.flux_analysis", cobra_flux_mock)
+# Force-replace all heavy dependencies so that the real installed packages
+# are never imported during the test run, regardless of import order.
+sys.modules["cobra"] = cobra_mock
+sys.modules["cobra.io"] = cobra_io_mock
+sys.modules["cobra.flux_analysis"] = cobra_flux_mock
 
 # smac
 smac_mock = MagicMock()
 smac_mock.HyperparameterOptimizationFacade = FakeHPOFacade
 smac_mock.RunHistory = MagicMock()
 smac_mock.Scenario = MagicMock()
-sys.modules.setdefault("smac", smac_mock)
+sys.modules["smac"] = smac_mock
 
 # ConfigSpace (used by FLYCOP.py and SMAC3Optimizer.py at import time)
 cs_mock = MagicMock()
@@ -59,25 +61,25 @@ cs_mock.ConfigurationSpace = MagicMock()
 cs_mock.Float = MagicMock()
 cs_mock.Integer = MagicMock()
 cs_mock.Categorical = MagicMock()
-sys.modules.setdefault("ConfigSpace", cs_mock)
+sys.modules["ConfigSpace"] = cs_mock
 
 # cometspy
-sys.modules.setdefault("cometspy", MagicMock())
+sys.modules["cometspy"] = MagicMock()
 
 # skopt
-sys.modules.setdefault("skopt", MagicMock())
+sys.modules["skopt"] = MagicMock()
 
 # networkx
-sys.modules.setdefault("networkx", MagicMock())
-sys.modules.setdefault("networkx.drawing", MagicMock())
-sys.modules.setdefault("networkx.drawing.nx_agraph", MagicMock())
+sys.modules["networkx"] = MagicMock()
+sys.modules["networkx.drawing"] = MagicMock()
+sys.modules["networkx.drawing.nx_agraph"] = MagicMock()
 
 # matplotlib
-sys.modules.setdefault("matplotlib", MagicMock())
-sys.modules.setdefault("matplotlib.pyplot", MagicMock())
+sys.modules["matplotlib"] = MagicMock()
+sys.modules["matplotlib.pyplot"] = MagicMock()
 
 # metconsin (SurfinFBASimulator)
-sys.modules.setdefault("metconsin", MagicMock())
+sys.modules["metconsin"] = MagicMock()
 
 # ---------------------------------------------------------------------------
 # optuna – real-enough stubs for unit testing OptunaOptimizer without
@@ -89,15 +91,22 @@ class FakeOptunaTrial:
     def __init__(self, param_values):
         # param_values: dict {name: value} to return for each suggest call
         self._values = param_values
+        self._suggested = {}   # records every value actually suggested
 
     def suggest_float(self, name, low, high):
-        return float(self._values.get(name, (low + high) / 2.0))
+        val = float(self._values.get(name, (low + high) / 2.0))
+        self._suggested[name] = val
+        return val
 
     def suggest_int(self, name, low, high):
-        return int(self._values.get(name, (low + high) // 2))
+        val = int(self._values.get(name, (low + high) // 2))
+        self._suggested[name] = val
+        return val
 
     def suggest_categorical(self, name, choices):
-        return self._values.get(name, choices[0])
+        val = self._values.get(name, choices[0])
+        self._suggested[name] = val
+        return val
 
 
 class FakeOptunaStudy:
@@ -113,7 +122,8 @@ class FakeOptunaStudy:
         for _ in range(n_trials):
             trial = FakeOptunaTrial(self._param_values)
             value = objective(trial)
-            self.trials.append({"value": value, "params": self._param_values.copy()})
+            # Use the values actually suggested by the trial, not _param_values
+            self.trials.append({"value": value, "params": trial._suggested.copy()})
         # pick best
         if self.direction == "minimize":
             best = min(self.trials, key=lambda t: t["value"])

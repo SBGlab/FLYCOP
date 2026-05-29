@@ -2,8 +2,8 @@
 class Fitness:
     def __init__(self):
         self.fitness_functions = {}
-        self.add_fitness_function('metabolite_maximization', self.metabolite_maximization)
-        self.add_fitness_function('biomass_maximization', self.biomass_maximization)
+        self.add_function('metabolite_maximization', self.metabolite_maximization)
+        self.add_function('biomass_maximization', self.biomass_maximization)
         self.default_fitness='metabolite_maximization'
 
     def add_fitness_function(self, function_name,fitness_function):
