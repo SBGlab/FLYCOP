@@ -29,20 +29,40 @@ from FLYCOP.OptunaOptimizer import OptunaOptimizer
 
 # ---------------------------------------------------------------------------
 # 1. M9 minimal medium  (BiGG exchange-metabolite IDs, mmol/gridbox)
-#    Concentrations of glucose and ammonium are tuned by the optimizer.
+#    Derived from Nuevo_layout.txt — only metabolites with concentration > 0
+#    are listed.  Glucose and ammonium concentrations are tuned by the
+#    optimizer; all other components are set to the layout defaults.
 # ---------------------------------------------------------------------------
 M9_BASE: dict = {
-    "glc__D_e":   10.0,   # D-glucose        — carbon & energy source
-    "nh4_e":      10.0,   # ammonium         — nitrogen source
-    "pi_e":        1.0,   # inorganic phosphate
-    "so4_e":       2.0,   # sulfate
-    "mg2_e":       2.0,   # magnesium
-    "k_e":         3.0,   # potassium
-    "na1_e":      10.0,   # sodium
-    "cl_e":        0.5,   # chloride
-    "o2_e":       20.0,   # oxygen (aerobic conditions)
-    "h2o_e":     100.0,   # water
-    "h_e":         0.0,   # proton (pH-buffered)
+    # ── Carbon & energy source (varied by optimizer) ──────────────────────
+    "glc__D_e":    10.0,    # D-glucose
+
+    # ── Macronutrients ─────────────────────────────────────────────────────
+    "nh4_e":     1000.0,    # ammonium         — nitrogen source
+    "pi_e":      1000.0,    # inorganic phosphate
+    "so4_e":     1000.0,    # sulfate
+    "k_e":       1000.0,    # potassium
+    "mg2_e":     1000.0,    # magnesium
+    "ca2_e":      100.0,    # calcium
+    "cl_e":      1000.0,    # chloride
+    "h2o_e":     1000.0,    # water
+    "h_e":       1000.0,    # proton
+
+    # ── Oxygen (aerobic conditions) ────────────────────────────────────────
+    "o2_e":      1000.0,    # oxygen
+
+    # ── Trace metals ───────────────────────────────────────────────────────
+    "fe2_e":     1000.0,    # iron (II)
+    "fe3_e":     1000.0,    # iron (III)
+    "mn2_e":     1000.0,    # manganese
+    "zn2_e":     1000.0,    # zinc
+    "cu2_e":     1000.0,    # copper
+    "cobalt2_e": 1000.0,    # cobalt
+    "ni2_e":     1000.0,    # nickel
+    "mobd_e":    1000.0,    # molybdate
+
+    # ── Vitamins / cofactors ───────────────────────────────────────────────
+    "cbl1_e":      0.001,   # cobalamin (vitamin B12)
 }
 
 

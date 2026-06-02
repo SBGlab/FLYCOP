@@ -109,20 +109,29 @@ class TestParamSpace(unittest.TestCase):
 
 
 class TestM9Medium(unittest.TestCase):
-    """Validate the M9 medium dictionary."""
+    """Validate the M9 medium dictionary (derived from Nuevo_layout.txt)."""
 
     M9_BASE = {
-        "glc__D_e":   10.0,
-        "nh4_e":      10.0,
-        "pi_e":        1.0,
-        "so4_e":       2.0,
-        "mg2_e":       2.0,
-        "k_e":         3.0,
-        "na1_e":      10.0,
-        "cl_e":        0.5,
-        "o2_e":       20.0,
-        "h2o_e":     100.0,
-        "h_e":         0.0,
+        "glc__D_e":    10.0,
+        "nh4_e":     1000.0,
+        "pi_e":      1000.0,
+        "so4_e":     1000.0,
+        "k_e":       1000.0,
+        "mg2_e":     1000.0,
+        "ca2_e":      100.0,
+        "cl_e":      1000.0,
+        "h2o_e":     1000.0,
+        "h_e":       1000.0,
+        "o2_e":      1000.0,
+        "fe2_e":     1000.0,
+        "fe3_e":     1000.0,
+        "mn2_e":     1000.0,
+        "zn2_e":     1000.0,
+        "cu2_e":     1000.0,
+        "cobalt2_e": 1000.0,
+        "ni2_e":     1000.0,
+        "mobd_e":    1000.0,
+        "cbl1_e":      0.001,
     }
 
     def test_medium_has_glucose(self):
@@ -134,9 +143,26 @@ class TestM9Medium(unittest.TestCase):
     def test_medium_has_oxygen(self):
         self.assertIn("o2_e", self.M9_BASE)
 
+    def test_medium_has_trace_metals(self):
+        for met in ("fe2_e", "fe3_e", "mn2_e", "zn2_e", "cu2_e", "cobalt2_e", "ni2_e", "mobd_e"):
+            self.assertIn(met, self.M9_BASE, f"Trace metal {met} missing from M9")
+
+    def test_medium_has_vitamin_b12(self):
+        self.assertIn("cbl1_e", self.M9_BASE)
+
     def test_all_concentrations_non_negative(self):
         for met, conc in self.M9_BASE.items():
             self.assertGreaterEqual(conc, 0.0, f"{met} has negative concentration")
+
+    def test_glucose_initial_concentration_is_10(self):
+        self.assertEqual(self.M9_BASE["glc__D_e"], 10.0)
+
+    def test_macronutrients_at_non_limiting_concentration(self):
+        for met in ("nh4_e", "pi_e", "so4_e", "k_e", "mg2_e", "o2_e"):
+            self.assertGreaterEqual(
+                self.M9_BASE[met], 100.0,
+                f"Macronutrient {met} looks limiting (< 100 mmol/gridbox)",
+            )
 
 
 class TestObjectiveFunction(unittest.TestCase):
@@ -154,10 +180,14 @@ class TestObjectiveFunction(unittest.TestCase):
         # optimizer at import time).
 
         M9_BASE = {
-            "glc__D_e": 10.0, "nh4_e": 10.0, "pi_e": 1.0,
-            "so4_e": 2.0, "mg2_e": 2.0, "k_e": 3.0,
-            "na1_e": 10.0, "cl_e": 0.5, "o2_e": 20.0,
-            "h2o_e": 100.0, "h_e": 0.0,
+            "glc__D_e":    10.0,
+            "nh4_e":     1000.0, "pi_e":  1000.0, "so4_e":  1000.0,
+            "k_e":       1000.0, "mg2_e": 1000.0, "ca2_e":   100.0,
+            "cl_e":      1000.0, "h2o_e": 1000.0, "h_e":    1000.0,
+            "o2_e":      1000.0, "fe2_e": 1000.0, "fe3_e":  1000.0,
+            "mn2_e":     1000.0, "zn2_e": 1000.0, "cu2_e":  1000.0,
+            "cobalt2_e": 1000.0, "ni2_e": 1000.0, "mobd_e": 1000.0,
+            "cbl1_e":      0.001,
         }
 
         class FakeCobraModel:
